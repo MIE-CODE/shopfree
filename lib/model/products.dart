@@ -11,10 +11,12 @@ class Products {
   String price;
   String src;
   String description;
+  double productUnit;
 
   Products(
       {required this.name,
       required this.price,
       required this.src,
-      required this.description});
+      required this.description,
+      required this.productUnit});
 }

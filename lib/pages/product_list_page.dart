@@ -38,21 +38,74 @@ class _ProductListPageState extends State<ProductListPage> {
               ? const Center(
                   child: CircularProgressIndicator(),
                 )
-              : GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                  ),
-                  itemCount: products.length,
-                  itemBuilder: (context, index) {
-                    final product = products[index];
-                    return ProductItemTile(
-                      productName: product.name,
-                      productPrice: product.price,
-                      productSrc: product.src,
-                      productDescription: product.description,
-                    );
-                  },
-                ),
+              : error.isNotEmpty
+                  ? Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                            height: 190,
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                border:
+                                    Border.all(color: const Color(0xffdc143c))),
+                            child: Column(
+                              children: [
+                                Text(
+                                  error,
+                                  textAlign: TextAlign.left,
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    setState(() {});
+                                  },
+                                  icon: const Icon(Icons.restart_alt),
+                                )
+                              ],
+                            )),
+                      ),
+                    )
+                  : products.isEmpty
+                      ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                                height: 190,
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                        color: const Color(0xffdc143c))),
+                                child: Column(
+                                  children: [
+                                    const Text(
+                                      'No products...',
+                                      textAlign: TextAlign.left,
+                                    ),
+                                    MaterialButton(
+                                      onPressed: () {
+                                        setState(() {});
+                                      },
+                                      child: const Icon(
+                                          Icons.restart_alt_outlined),
+                                    )
+                                  ],
+                                )),
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: products.length,
+                          itemBuilder: (context, index) {
+                            final product = products[index];
+                            return ProductItemTile(
+                              productName: product.name,
+                              productPrice: product.price,
+                              productSrc: product.src,
+                              productDescription: product.description,
+                              productUnit: product.productUnit,
+                            );
+                          },
+                        ),
         ),
       ),
     );
@@ -65,11 +118,11 @@ class _ProductListPageState extends State<ProductListPage> {
         products = response;
         isLoading = false;
       });
-      print(response.length);
     } catch (e) {
       setState(() {
         error = e.toString();
         isLoading = false;
+        print(e);
       });
     }
   }

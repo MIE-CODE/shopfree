@@ -7,13 +7,15 @@ class ProductItemTile extends StatefulWidget {
   String productPrice;
   String productSrc;
   String productDescription;
+  double productUnit;
 
   ProductItemTile(
       {super.key,
       required this.productName,
       required this.productPrice,
       required this.productSrc,
-      required this.productDescription});
+      required this.productDescription,
+      required this.productUnit});
 
   @override
   State<ProductItemTile> createState() => _ProductItemTileState();
@@ -34,6 +36,9 @@ class _ProductItemTileState extends State<ProductItemTile> {
 
   @override
   Widget build(BuildContext context) {
+    Color unitColor = widget.productUnit < 1.0
+        ? const Color(0xffdc143c)
+        : const Color.fromARGB(255, 52, 158, 100);
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Container(
@@ -50,28 +55,45 @@ class _ProductItemTileState extends State<ProductItemTile> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Hero(
-              tag: 'product-img-${widget.productSrc}',
-              child: Image.network(
-                'https://api.timbu.cloud/images/${widget.productSrc}',
-                width: 100,
-                height: 100,
-                repeat: ImageRepeat.noRepeat,
+            ListTile(
+              onTap: detail,
+              contentPadding: const EdgeInsets.only(right: 20, left: 0),
+              leading: Hero(
+                tag: 'product-img-${widget.productSrc}',
+                child: Image.network(
+                  'https://api.timbu.cloud/images/${widget.productSrc}',
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.contain,
+                  repeat: ImageRepeat.noRepeat,
+                ),
+              ),
+              title: Text(
+                widget.productName,
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold, color: Color(0xff42032C)),
+              ),
+              subtitle: Row(
+                children: [
+                  const Text(
+                    'Unit: ',
+                    style: TextStyle(color: Color.fromARGB(255, 53, 68, 203)),
+                  ),
+                  Text(
+                    '${widget.productUnit}',
+                    style: TextStyle(color: unitColor),
+                  )
+                ],
+              ),
+              trailing: MaterialButton(
+                onPressed: detail,
+                color: const Color(0xffF1EFDC),
+                child: Text(
+                  '₦ ${widget.productPrice}',
+                  style: const TextStyle(color: Color(0xff42032C)),
+                ),
               ),
             ),
-            Text(
-              widget.productName,
-              style: const TextStyle(
-                  fontWeight: FontWeight.w500, color: Color(0xff42032C)),
-            ),
-            MaterialButton(
-              onPressed: detail,
-              color: const Color(0xffD36B00),
-              child: Text(
-                '₦ ${widget.productPrice}',
-                style: const TextStyle(color: Color(0xff42032C)),
-              ),
-            )
           ],
         ),
       ),

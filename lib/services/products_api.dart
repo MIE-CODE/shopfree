@@ -24,11 +24,16 @@ class ProductsApi {
       final photos = e['photos'] as List<dynamic>;
       final photoUrl = photos.isNotEmpty ? photos.first['url'] : 'No Image';
       final description = e['description'] ?? 'not available';
+      final unit = e['available_quantity'] ?? 0;
 
-      print(e['description']);
+      print(e['available_quantity']);
 
       return Products(
-          name: name, price: price, src: photoUrl, description: description);
+          name: name,
+          price: price,
+          src: photoUrl,
+          description: description,
+          productUnit: unit);
     }).toList();
     return products;
   }
