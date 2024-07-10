@@ -11,6 +11,22 @@ class ProductListPage extends StatefulWidget {
 }
 
 class _ProductListPageState extends State<ProductListPage> {
+  Future<void> getProducts() async {
+    try {
+      final response = await ProductsApi.getProducts();
+      setState(() {
+        products = response;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        error = e.toString();
+        isLoading = false;
+        print(e);
+      });
+    }
+  }
+
   List<Products> products = [];
   bool isLoading = true;
   String error = '';
@@ -109,21 +125,5 @@ class _ProductListPageState extends State<ProductListPage> {
         ),
       ),
     );
-  }
-
-  Future<void> getProducts() async {
-    try {
-      final response = await ProductsApi.getProducts();
-      setState(() {
-        products = response;
-        isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        error = e.toString();
-        isLoading = false;
-        print(e);
-      });
-    }
   }
 }
