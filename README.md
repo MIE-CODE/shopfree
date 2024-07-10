@@ -4,7 +4,7 @@ To get the app running , go to the terminal and run `flutter run`
 
 ## Hosted platform
 
-This this app is hosted on Appetize.io , to access it use this link https://appetize.io/app/android/com.example.stage_2?device=pixel7&osVersion=13.0
+This this app is hosted on Appetize.io , to access it use this link  https://appetize.io/app/b_ldeytb4lltuqvnvvksnwo7tzra
 
 ## Looks and view
 
